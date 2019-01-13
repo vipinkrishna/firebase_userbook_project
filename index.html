@@ -1,0 +1,56 @@
+<!-- https://github.com/vipinkrishna -->
+
+<html>
+
+<head>
+    <script src="https://www.gstatic.com/firebasejs/5.7.3/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.7.3/firebase-firestore.js"></script>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <title>USER BOOK</title>
+</head>
+
+<body>
+
+    <h1>USER BOOK</h1>
+
+    <div class="search">
+            <i class="fas fa-search"></i>
+        <input type="search" placeholder="Search" id="search">
+    </div>
+
+    <div class="container">
+
+        <form id="user-add-form">
+            <input type="text" name="name" placeholder="Enter Name" required autofocus>
+            <input type="text" name="city" placeholder="Enter City" required>
+            <input type="text" name="phone" placeholder="Enter Phone Number" required>
+            <div class="btnAdd">
+                <button>ADD USER</button>
+            </div>
+        </form>
+
+        <ul id="user-list"></ul>
+
+    </div>
+
+    <script>
+        // FIREBASE CONFIGURATION
+        var config = {
+            apiKey: "AIzaSyDz1AwqYccbSn9Er1tzcc0dCTM6KF_qsjc",
+            authDomain: "user-book.firebaseapp.com",
+            databaseURL: "https://user-book.firebaseio.com",
+            projectId: "user-book",
+            storageBucket: "user-book.appspot.com"
+        };
+
+        firebase.initializeApp(config);
+        const db = firebase.firestore();
+        db.settings({
+            timestampsInSnapshots: true
+        });
+    </script>
+    <script src="app.js"></script>
+</body>
+
+</html>
