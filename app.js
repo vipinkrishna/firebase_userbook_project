@@ -11,16 +11,20 @@ const search = document.querySelector('#search');
 search.addEventListener('input', (e) => {
     let value = e.target.value;
     if(value.length > 0) {
-        const regex = new RegExp(`${value}`, 'i');
-        filteredUsers = users.filter(doc => !Object.keys(doc.data()).every(key => regex.test(doc.data()[key]) ? false: true))
-        userList.innerHTML = '';  //EMPTY DOM LIST
-        filteredUsers.forEach(doc => renderUser(doc));
+        searchFilter(value);
     } else {
         userList.innerHTML = '';  //EMPTY DOM LIST
         users.forEach(doc => renderUser(doc));
     }
 });
 
+//SEARCH FILTER
+function searchFilter(value) {
+    const regex = new RegExp(`${value}`, 'i');
+    filteredUsers = users.filter(doc => !Object.keys(doc.data()).every(key => regex.test(doc.data()[key]) ? false: true));
+    userList.innerHTML = '';  //EMPTY DOM LIST
+    filteredUsers.forEach(doc => renderUser(doc));
+}
 
 // CREATE USER LIST
 function renderUser(doc) {
@@ -80,20 +84,22 @@ addForm.addEventListener('submit', (e) => {
 
 
 // REALTIME EVENT HANDLING
-db.collection('users').onSnapshot(snapshot => {
+db.collection('users').orderBy('name').onSnapshot(snapshot => {
     
     users = snapshot.docs;
     let changes = snapshot.docChanges();
     changes.forEach(change => {
+        //ADD
         if (change.type == 'added') {
             renderUser(change.doc);
+            searchFilter(search.value);
         } else if (change.type == 'removed') {
             let li = userList.querySelector('[data-id="' + change.doc.id + '"]');  //OBSELETE
             userList.removeChild(li);  //OBSELETE
 
             // userList.innerHTML = '';  //EMPTY DOM LIST
             // users.forEach(doc => renderUser(doc));
-            console.log('REMOVED ' + change.doc.id);
+            // console.log('REMOVED ' + change.doc.id);
         }
     });
 });
