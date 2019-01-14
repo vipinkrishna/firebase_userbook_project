@@ -4,6 +4,7 @@
 
 ::placeholder {
     color: #ccc;
+    user-select: none;
 }
 
 body {
