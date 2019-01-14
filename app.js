@@ -49,10 +49,17 @@ function renderUser(doc) {
     close.addEventListener('click', (e) => {
         e.stopPropagation();
         let id = e.target.parentElement.getAttribute('data-id');
-        db.collection('users').doc(id).delete().then(() => {
-            let li = userList.querySelector('[data-id=' + id + ']'); //NEW
-            userList.removeChild(li);  //NEW
-        });
+
+        // db.collection('users').doc(id).delete().then(() => {
+        //     let li = userList.querySelector('[data-id=' + id + ']'); //NEW
+        //     userList.removeChild(li);  //NEW
+        // });
+
+        db.collection('users').doc(id).delete();
+        
+        //     let li = userList.querySelector('[data-id=' + id + ']'); //NEW
+        //     userList.removeChild(li);  //NEW
+
     });
 }
 
@@ -81,8 +88,8 @@ db.collection('users').onSnapshot(snapshot => {
         if (change.type == 'added') {
             renderUser(change.doc);
         } else if (change.type == 'removed') {
-            // let li = userList.querySelector('[data-id=' + change.doc.id + ']');  //OBSELETE
-            // userList.removeChild(li);  //OBSELETE
+            let li = userList.querySelector('[data-id=' + change.doc.id + ']');  //OBSELETE
+            userList.removeChild(li);  //OBSELETE
         }
     });
 });
