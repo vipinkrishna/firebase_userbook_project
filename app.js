@@ -20,8 +20,12 @@ search.addEventListener('input', (e) => {
 
 //SEARCH FILTER
 function searchFilter(value) {
-    const regex = new RegExp(`${value}`, 'i');
-    filteredUsers = users.filter(doc => !Object.keys(doc.data()).every(key => regex.test(doc.data()[key]) ? false: true));
+    // const regex = new RegExp(`${value}`, 'i');
+    const regex = new RegExp(value, 'i');
+
+    // filteredUsers = users.filter(doc => !Object.keys(doc.data()).every(key => regex.test(doc.data()[key]) ? false: true));
+    filteredUsers = users.filter(doc => !(Object.keys(doc.data()).every(key => (typeof doc.data()[key] === 'object') ? true : !regex.test(doc.data()[key]))))
+
     userList.innerHTML = '';  //EMPTY DOM LIST
     filteredUsers.forEach(doc => renderUser(doc));
 }
