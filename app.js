@@ -24,7 +24,9 @@ function searchFilter(value) {
     const regex = new RegExp(value, 'i');
 
     // filteredUsers = users.filter(doc => !Object.keys(doc.data()).every(key => regex.test(doc.data()[key]) ? false: true));
-    filteredUsers = users.filter(doc => !(Object.keys(doc.data()).every(key => (typeof doc.data()[key] === 'object') ? true : !regex.test(doc.data()[key]))))
+    // filteredUsers = users.filter(doc => !(Object.keys(doc.data()).every(key => (typeof doc.data()[key] === 'object') ? true : !regex.test(doc.data()[key]))))
+
+    filteredUsers = users.filter(doc => Object.keys(doc.data()).some(key => ((key === "timestamp") ? false : regex.test(doc.data()[key]))));  //NEW SEARCH ALGORITHM
 
     userList.innerHTML = '';  //EMPTY DOM LIST
     filteredUsers.forEach(doc => renderUser(doc));
