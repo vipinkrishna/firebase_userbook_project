@@ -18,10 +18,15 @@ search.addEventListener('input', (e) => {
     }
 });
 
+function escapeRegExp(string) {
+    return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); // $& means the whole matched string
+}
+
 //SEARCH FILTER
 function searchFilter(value) {
     // const regex = new RegExp(`${value}`, 'i');
-    const regex = new RegExp(value, 'i');
+    // const regex = new RegExp(value, 'i');
+    const regex = new RegExp(escapeRegExp(`${value}`), "i");  //ESCAPE REGEX
 
     // filteredUsers = users.filter(doc => !Object.keys(doc.data()).every(key => regex.test(doc.data()[key]) ? false: true));
     // filteredUsers = users.filter(doc => !(Object.keys(doc.data()).every(key => (typeof doc.data()[key] === 'object') ? true : !regex.test(doc.data()[key]))))
